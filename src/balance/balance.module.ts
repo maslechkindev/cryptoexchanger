@@ -1,20 +1,11 @@
-import { Module } from '@nestjs/common';
-import { AccountController } from './account/account.controller';
-import { AppGateway } from './app/app.gateway';
+import { CacheModule, Module } from '@nestjs/common';
+import { BalanceExchangeHistoryService } from './balanceExchangeHistory.service';
+import { PrismaService } from '../prisma.service';
+import { CurrencyModule } from '../currency/currency.module';
+import { BalanceRepository } from './balance.repository';
 
 @Module({
-  imports: [
-    // TypeOrmModu.forRoot({
-    //   type: 'postgres',
-    //   host: 'localhost',
-    //   username: '<USERNAME>',
-    //   password: '<PASSWORD>',
-    //   database: 'chat',
-    //   entities: [Chat],
-    //   synchronize: true,
-    // }),
-  ],
-  controllers: [AccountController],
-  providers: [AppGateway],
+  imports: [CacheModule.register(), CurrencyModule],
+  providers: [BalanceExchangeHistoryService, PrismaService, BalanceRepository],
 })
-export class AppModule {}
+export class BalanceModule {}

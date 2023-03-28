@@ -1,4 +1,5 @@
-export class ExchangeRequestDto {
-  cryptocurrency: Array<string>;
-  currency: Array<string>;
+export class ExchangeResponseDto {
+  currency: string;
+  currencyExchange: string;
+  exchange: any;
 }

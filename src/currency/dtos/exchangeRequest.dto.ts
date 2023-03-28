@@ -1,3 +1,4 @@
 export class ExchangeRequestDto {
-  readonly c: Array<string>;
+  cryptocurrency: Array<string>;
+  currency: Array<string>;
 }

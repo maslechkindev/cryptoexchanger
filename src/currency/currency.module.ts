@@ -1,20 +1,13 @@
-import { Module } from '@nestjs/common';
-import { AccountController } from './account/account.controller';
-import { AppGateway } from './app/app.gateway';
+import { CacheModule, Module } from '@nestjs/common';
+import { PrismaService } from '../prisma.service';
+import { CurrencyService } from './currency.service';
+import { CurrencyController } from './currency.controller';
+import { CurrencyRepository } from './currency.repository';
 
 @Module({
-  imports: [
-    // TypeOrmModu.forRoot({
-    //   type: 'postgres',
-    //   host: 'localhost',
-    //   username: '<USERNAME>',
-    //   password: '<PASSWORD>',
-    //   database: 'chat',
-    //   entities: [Chat],
-    //   synchronize: true,
-    // }),
-  ],
-  controllers: [AccountController],
-  providers: [AppGateway],
+  imports: [CacheModule.register()],
+  controllers: [CurrencyController],
+  providers: [CurrencyService, CurrencyRepository, PrismaService],
+  exports: [CurrencyService, CurrencyRepository],
 })
-export class AppModule {}
+export class CurrencyModule {}

@@ -1,11 +1,9 @@
-import { Module } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
-import { CurrencyService } from './currency.service';
+import { CacheModule, Module } from '@nestjs/common';
+import { KrakenService } from './kraken.service';
+import { CurrencyModule } from '../currency/currency.module';
 
 @Module({
-  imports: [],
-  controllers: [],
-  providers: [CurrencyService, PrismaService],
-  exports: [CurrencyService],
+  imports: [CurrencyModule, CacheModule.register()],
+  providers: [KrakenService],
 })
-export class CurrencyModule {}
+export class KrakenModule {}

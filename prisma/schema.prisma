@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Currency {
+  id                Int     @id @default(autoincrement())
+  name              String  @unique @db.VarChar(255)
+  crypto            Boolean
+  currency          Balance[] @relation("currency")
+  currencyExchange  BalanceExchangeHistory[] @relation("currencyExchange")
+  @@map("currencies")
+}
+
+model Account {
+  id       Int     @id @default(autoincrement())
+  name     String?
+  balance  Balance[] @relation("account")
+  @@map("accounts")
+}
+
+model Balance {
+  id                   Int      @id @default(autoincrement())
+  accountId            Int
+  currencyId           Int
+  sum   Float
+  account              Account  @relation("account", fields: [accountId], references: [id], onDelete: Cascade)
+  currency             Currency @relation("currency", fields: [currencyId], references: [id], onDelete: Cascade)
+  balance              BalanceExchangeHistory[] @relation("balance")
+  @@map("balances")
+}
+
+model BalanceExchangeHistory {
+  id                   Int      @id @default(autoincrement())
+  balanceId            Int
+  currencyExchangeId   Int
+  sum                  Float
+  createdAt            DateTime @default(now())
+  balance              Balance  @relation("balance", fields: [balanceId], references: [id], onDelete: Cascade)
+  currencyExchange     Currency  @relation("currencyExchange", fields: [currencyExchangeId], references: [id], onDelete: Cascade)
+  @@map("balanceHistory")
+}
+
